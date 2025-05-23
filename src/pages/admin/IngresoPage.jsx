@@ -93,4 +93,3 @@ const IngresoForm = () => {
 };
 
 export default IngresoForm;
-
