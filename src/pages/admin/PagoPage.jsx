@@ -13,8 +13,9 @@ function PagoForm() {
 
     try {
       const response = await axios.post(
-        `http://localhost:8080/api/pagos/registrarPago?placa=${placa}`
-      );
+        `http://localhost:8080/api/pagos/registrarPago?placa=${placa}`, 
+        {},
+        { withCredentials: true });
       setValorPagado(response.data);
       setMensaje(`Pago registrado. Total a pagar: $${response.data}`);
     } catch (error) {

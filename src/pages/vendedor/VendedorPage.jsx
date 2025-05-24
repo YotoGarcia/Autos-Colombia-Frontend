@@ -6,7 +6,7 @@ import CeldaPage from './CeldaPage';
 import Navbar from '../../components/Navbar';
 
 function VendedorPage() {
-  const role = 'ROLE_VENDEDOR'; // normalmente del contexto o storage
+  const role = 'ROLE_VENDEDOR'; 
 
   return (
     <div>

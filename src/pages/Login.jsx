@@ -16,6 +16,8 @@ const Login = () => {
       const response = await axios.post('http://localhost:8080/auth/login', {
         email,
         password,
+      }, {
+        withCredentials: true
       });
 
       const { rol: userRol } = response.data;

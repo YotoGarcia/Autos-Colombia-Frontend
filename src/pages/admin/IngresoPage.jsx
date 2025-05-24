@@ -15,23 +15,25 @@ const IngresoForm = () => {
     setIngresoInfo(null);
 
     try {
-      const response = await axios.post(`http://localhost:8080/api/ingresos?placa=${placa}`);
-      const data = response.data;
-      console.log(response.data); 
+    const response = await axios.post(
+      `http://localhost:8080/api/ingresos?placa=${placa}`,
+      {},
+      { withCredentials: true }
+    );
+    const data = response.data;
 
-      setIngresoInfo({
-        placa: response.data.placa,
-        celda: response.data.celda.nombre, 
-        hora: new Date(response.data.horaIngreso).toLocaleTimeString(),
-      });
-      
+    setIngresoInfo({
+      placa: data.placa,
+      celda: data.celda.nombre,
+      hora: new Date(data.horaIngreso).toLocaleTimeString(),
+    });
 
-      setShowModal(true); // ← Abre el modal
-      setPlaca('');
-    } catch (err) {
-      setError('Error al registrar el ingreso.');
-      console.error(err);
-    }
+    setShowModal(true);
+    setPlaca('');
+  } catch (err) {
+    setError('Error al registrar el ingreso.');
+    console.error(err);
+  }
   };
 
   const closeModal = () => {

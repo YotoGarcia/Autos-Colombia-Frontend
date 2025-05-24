@@ -10,7 +10,7 @@ function HistorialPagos() {
 
   const buscarPagos = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/api/pagos/fecha?fecha=${fecha}`);
+      const response = await axios.get(`http://localhost:8080/api/pagos/fecha?fecha=${fecha}`, { withCredentials: true });
       const lista = response.data;
       setPagos(lista);
       const suma = lista.reduce((acc, pago) => acc + pago.valorPagado, 0);

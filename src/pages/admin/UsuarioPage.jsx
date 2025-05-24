@@ -7,11 +7,11 @@ function UsuarioPage() {
     nombre: '',
     email: '',
     password: '',
-    rol: '', // Nuevo campo para el rol
+    rol: '', 
   });
   const [error, setError] = useState(null);
 
-  // Cargar lista de usuarios
+
   const cargarUsuarios = async () => {
     try {
       const res = await axios.get('http://localhost:8080/api/usuarios', { withCredentials: true });
@@ -25,7 +25,6 @@ function UsuarioPage() {
     cargarUsuarios();
   }, []);
 
-  // Manejar cambios en el formulario
   const handleChange = (e) => {
     setNuevoUsuario({ ...nuevoUsuario, [e.target.name]: e.target.value });
   };

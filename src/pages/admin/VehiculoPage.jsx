@@ -8,7 +8,7 @@ function VehiculoPage() {
 
   const buscarPorFecha = () => {
     if (fechaSeleccionada) {
-      axios.get(`http://localhost:8080/api/vehiculos/fecha?fecha=${fechaSeleccionada}`)
+      axios.get(`http://localhost:8080/api/vehiculos/fecha?fecha=${fechaSeleccionada}`, { withCredentials: true })
         .then(response => {
           if (Array.isArray(response.data)) {
             setVehiculos(response.data);

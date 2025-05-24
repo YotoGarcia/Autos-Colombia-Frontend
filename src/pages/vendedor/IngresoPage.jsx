@@ -15,7 +15,10 @@ const IngresoForm = () => {
     setIngresoInfo(null);
 
     try {
-      const response = await axios.post(`http://localhost:8080/api/ingresos?placa=${placa}`);
+      const response = await axios.post(`http://localhost:8080/api/ingresos?placa=${placa}`,
+      {}, 
+      { withCredentials: true } 
+      );
       const data = response.data;
       console.log(response.data); 
 

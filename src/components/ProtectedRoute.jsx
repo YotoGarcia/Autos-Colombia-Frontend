@@ -3,14 +3,14 @@ import { Navigate } from 'react-router-dom';
 
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
-  const userRole = localStorage.getItem('rol'); // obtienes rol guardado
+  const userRole = localStorage.getItem('rol'); // 
 
   if (!userRole || !allowedRoles.includes(userRole)) {
-    // si no está logueado o rol no permitido, redirige a login
+   
     return <Navigate to="/" replace />;
   }
 
-  return children; // si está permitido, renderiza el componente hijo
+  return children; 
 };
 
 export default ProtectedRoute;
