@@ -13,15 +13,18 @@ function PagoForm() {
 
     try {
       const response = await axios.post(
-        `http://localhost:8080/api/pagos/registrarPago?placa=${placa}`,
-        {}, 
-      { withCredentials: true } 
-      );
-      
+      `http://localhost:8080/api/pagos/registrarPago?placa=${placa}`,
+      {},
+      { withCredentials: true }
+    );
+
       setValorPagado(response.data);
       setMensaje(`Pago registrado. Total a pagar: $${response.data}`);
+
+      window.open(`http://localhost:8080/api/pagos/factura?placa=${placa}`, "_blank");
     } catch (error) {
       setMensaje('Error: No se pudo registrar el pago, placa no encontrada.');
+      alert("Error: " + error.message);
     }
   };
 

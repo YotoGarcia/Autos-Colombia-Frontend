@@ -1,45 +1,45 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
 
 const IngresoForm = () => {
   const [placa, setPlaca] = useState('');
   const [mensaje, setMensaje] = useState('');
   const [error, setError] = useState('');
-  const [ingresoInfo, setIngresoInfo] = useState(null);
-  const [showModal, setShowModal] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMensaje('');
     setError('');
-    setIngresoInfo(null);
 
-    try {
-    const response = await axios.post(
-      `http://localhost:8080/api/ingresos?placa=${placa}`,
-      {},
-      { withCredentials: true }
-    );
-    const data = response.data;
+     try {
 
-    setIngresoInfo({
-      placa: data.placa,
-      celda: data.celda.nombre,
-      hora: new Date(data.horaIngreso).toLocaleTimeString(),
-    });
+  await axios.post(
+    `http://localhost:8080/api/ingresos?placa=${placa}`,
+    {},
+    { withCredentials: true }
+  );
 
-    setShowModal(true);
-    setPlaca('');
-  } catch (err) {
-    setError('Error al registrar el ingreso.');
-    console.error(err);
-  }
-  };
+  setMensaje(`Ingreso registrado para la placa: ${placa}`);
 
-  const closeModal = () => {
-    setShowModal(false);
-    setIngresoInfo(null);
-    
+  
+  const response = await axios.get(
+    `http://localhost:8080/api/ingresos/factura?placa=${placa}`,
+    {
+      responseType: 'blob',
+      withCredentials: true   
+    }
+  );
+
+  const file = new Blob([response.data], { type: 'application/pdf' });
+  const fileURL = URL.createObjectURL(file);
+  window.open(fileURL);
+
+  setPlaca('');
+} catch (err) {
+  setError('Error al registrar el ingreso o abrir la factura.');
+  console.error(err);
+}
+
   };
 
   return (
@@ -66,32 +66,12 @@ const IngresoForm = () => {
           </div>
         </form>
 
+        {mensaje && <div className="alert alert-success mt-4" role="alert">{mensaje}</div>}
         {error && <div className="alert alert-danger mt-4" role="alert">{error}</div>}
       </div>
-
-      {/* Modal de ingreso exitoso */}
-      {showModal && ingresoInfo && (
-        <div className="modal show d-block" tabIndex="-1" role="dialog">
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header bg-success text-white">
-                <h5 className="modal-title">Ingreso Exitoso</h5>
-                <button type="button" className="btn-close" onClick={closeModal}></button>
-              </div>
-              <div className="modal-body">
-                <p><strong>Placa:</strong> {ingresoInfo.placa}</p>
-                <p><strong>Celda Asignada:</strong> {ingresoInfo.celda}</p>
-                <p><strong>Hora de Ingreso:</strong> {ingresoInfo.hora}</p>
-              </div>
-              <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" onClick={closeModal}>Cerrar</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
 
 export default IngresoForm;
+
